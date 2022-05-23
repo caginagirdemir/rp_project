@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}
+Serial Ports
+{% endblock %}
+
+{% block content %}
+<p> </p>
+
+<h2 class="mt-5">Serial Ports</h2>
+<table class="table table-hover table-dark">
+
+<thead>
+<tr>
+<th space="col">Port Number</th>
+</tr>
+</thead>
+
+<tbody>
+{% for port in items %}
+<tr>
+
+<td>{{ port }} </td>
+{% if port=='/dev/ttyACM0' %}
+
+<td> <a href="/readgps"  class="btn btn-success " type="submit">Read</a> </td>
+
+{% else %}
+
+<td> </td>
+
+{% endif %}
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+
+{% endblock %}

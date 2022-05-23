@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}
+GPS Test
+{% endblock %}
+
+{% block content %}
+<p> </p>
+
+<h2 class="mt-5">GPS Files</h2>
+<table class="table table-hover table-dark">
+
+<thead>
+<tr>
+<th space="col">File name</th>
+</tr>
+</thead>
+
+<tbody>
+{% for port in gpsitems %}
+<tr>
+
+<td>{{ port }} </td>
+<td> <a href="maps"  class="btn btn-success " type="submit">Maps</a> </td>
+
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+
+{% endblock %}
