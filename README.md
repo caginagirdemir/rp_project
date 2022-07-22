@@ -15,12 +15,21 @@
 </details>
 
 Python ile yazılmıştır.
-Memory Map ile programlar arası ortak hafıza alanı bulunur.
+Memory Map kütüphanesi ile programlar arası ortak hafıza kullanıldı. 
+UBlox GPS Modülü kullanıldı.
+OpenCV kütüphanesi ve yerleşik kamera ile yüz tanıma gerçekleştirildi.
+Kart okuyucu kullanıldı.
+Duman ve Alkol sensörü kullanıldı.
+Sıvı akış sensörü kullanıldı.
+SQLite veritabanı kullanıldı.
 
+Sistem ile kamyonun aldığı mesafe kayıt altına alınır.
+Sistem ile kamyon sürücü eşleşmesi ve yetki kontrolü sağlanır.
+Kamyon yakıt takibi yapılır.
 
-Written in Python and used memory map (mmap) to communication between sensor reading and recorder to database programs.
-UBlox GPS Module, Face Recognition, RFID Card Reader, Smoke and Alcohol Sensor Reading 
-
-SQLite veritabanı kullanılmıştır. 
 
 Sürücü kontak açtığında sistem çalışmaya başlar.
+Sürücü RFID kartını okutur.
+Sürücü yüzünü ekranda gösterilen kare içerisine getirir.
+Sürücü aracı kullanmaya başlar.
+
