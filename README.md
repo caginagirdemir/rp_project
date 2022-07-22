@@ -11,7 +11,7 @@
 </details>
 <details>
   <summary> Proje Ekranı </summary>
-<img src="rp_project_2.jpg" width="400" height="480" />
+<img src="rp_project_2.jpg" width="600" height="480" />
 </details>
 
 Python ile yazılmıştır.
