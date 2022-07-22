@@ -7,7 +7,7 @@
 </details>
 <details>
   <summary> RAM Yapısı </summary>
-<img src="mmap.jpg" width="500" height="480" />
+<img src="mmap.jpg" width="600" height="480" />
 </details>
 <details>
   <summary> Proje Ekranı </summary>
