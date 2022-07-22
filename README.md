@@ -12,7 +12,7 @@
 <details>
   <summary> Proje Ekranı </summary>
 <img src="rp_project_2.jpg" width="400" height="480" />
-<details>
+</details>
 
 Python ile yazılmıştır.
 Memory Map ile programlar arası ortak hafıza alanı bulunur.
