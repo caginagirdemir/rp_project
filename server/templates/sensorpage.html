@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensors</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }} " rel="stylesheet">
+    
+
+  </head>
+  <body>
+    <main class="container">
+
+        <div class="bg-light p-5 rounded">
+    <h1>Sensor Page</h1>
+    <p class="lead">Status : <div class="text-success"><b>Online</b></div> </p>
+    <!--<a class="btn btn-lg btn-primary" href="#" role="button">Button &raquo;</a>
+    -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
+            <div class="col">
+                2 of 3
+            </div>
+            <div class="col">
+                3 of 3
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</main>
+  </body>
+</html>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }} "></script>
+<script src="{{ url_for( 3'static', filename='chart_js/chart.js') }} "></script>
+<script>
+    const ctx = document.getElementById('myChart');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['-5', '-4', '-3', '-2', '-1', '0'],
+            datasets: [{
+                data: [114,114,114,114,114,114],
+                label: "treshold",
+                borderColor = "#ff0000",
+                fill: true
+            },
+            {
+                data: [110,111,113,117,115,116],
+                label: "measured",
+                borderColor = "#0000ff",
+                fill: true
+            }
+            ]
+        
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    </script>

@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }} " rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='leaflet/leaflet.css') }}" />
+    <style>
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        div#map{
+            width: 100%;
+            height: 100vh;
+            display:block;
+        }
+    </style>
+
+
+
+  </head>
+  <body>
+    
+    <div id="map"></div>
+
+    
+
+      
+  </body>
+</html>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }} "></script>
+
+<script src="{{ url_for('static', filename='leaflet/leaflet.js') }}"></script>
+<script src="{{ url_for('static', filename='leaflet/Leaflet.Control.Custom.js') }}"></script>
+
+
+
+<script type="text/javascript">
+    var map = L.map('map',{zoomControl: false});
+    
+    map.setView([39.930144, 32.815954], 19);
+    
+    
+    
+    //osm layer
+    var osm = L.tileLayer('mapfile/{z}/{x}/{y}.png',{
+      maxZoom: 19,
+      minZoom:19
+    });
+    
+    osm.addTo(map);
+
+
+    var myIcon = L.icon({
+    iconUrl: "{{ url_for('static', filename='img/truck_icon.png') }}",
+    iconSize: [48, 48]
+    });
+
+    var marker = L.marker([39.930144, 32.815954], {icon: myIcon}).addTo(map);
+        
+
+    var hour="";
+    var min="";
+    var sec="";
+    var driver_name="----------";
+
+    var driver_shift_start_date="";
+    var driver_shift_start_time="";
+    
+
+    var driver_key_state="border-danger";
+    var driver_card_indicator="border-danger";
+    var driver_face_recognation_indicator="border-danger";
+
+
+///Time indicator definitaion
+    var time_indicator = L.control.custom({
+    position: 'topright',
+    content : 
+    '<div class="alert alert-info" role="alert">'+
+    //'<p>'+date+'</p>'+
+    '<p>'+'Error 001'+'</p>'+
+    '</div>',
+    style   :
+    {
+        margin: '20px',
+        padding: '10px 0 0 0'
+    }
+}).addTo(map);
+
+
+    function time_indicator_f() {
+///Time indicator
+      console.log("check1");
+
+      time_indicator.onRemove(map);
+
+    time_indicator = L.control.custom({
+    position: 'topright',
+    content : 
+    '<div class="alert alert-info " role="alert">'+
+    //'<p>'+date+'</p>'+
+    '<h4 class="vertical-center">'+hour+':'+min+':'+sec+' </h4>'+
+    '</div>',
+    style   :
+    {
+        margin: '10px',
+        padding: '10px 0 0 0'
+    }
+}).addTo(map);
+///Time indicator end
+}
+
+
+///Vehicle insight indicator
+L.control.custom({
+    position: 'topleft',
+    content : 
+    '<div class="d-inline-flex p-2">'+
+    
+    '<div class="card border-dark mb-1" style="width: 4rem; border-width: 1px ">'+
+    '<center><img src="{{ url_for("static", filename="img/gold.png") }}" height="64" width="64" class="img-thumbnail"></center>'+
+    '</div>'+
+
+    '</div>',
+    style   :
+    {
+        margin: '20px',
+        padding: '10px 0 0 0'
+    }
+})
+.addTo(map);
+/////Vehicle insight indicator end
+
+
+
+
+///Vehicle indicators definitaion
+    var vehicle_indicators= L.control.custom({
+    position: 'bottomleft',
+    content : 
+    '<div class="d-inline-flex p-2">'+
+    
+    '<div class="card '+driver_key_state+' mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/driver_key.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+
+    '&nbsp;'+
+
+
+    '<div class="card '+driver_card_indicator+' mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/driver_card.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+    '&nbsp;'+
+
+    '<div class="card '+driver_face_recognation_indicator+'mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/face-id.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+
+
+
+    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+
+    '<div class="card border-danger mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/alcohol-icon.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+    '&nbsp;'+
+
+    '<div class="card border-danger mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/smoke.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+    '&nbsp;'+
+
+    '<div class="card border-danger mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/oil-icon.jpeg") }}" class="img-thumbnail">'+
+    '</div>'+
+
+    '</div>',
+    style   :
+    {
+        margin: '20px',
+        padding: '10px 0 0 0'
+    }
+})
+.addTo(map);
+
+
+///Vehicle indicators function
+function vehicle_indicators_f() {
+
+    vehicle_indicators.onRemove(map);
+
+    vehicle_indicators= L.control.custom({
+    position: 'bottomleft',
+    content : 
+    '<div class="d-inline-flex p-2">'+
+    
+    '<div class="card '+driver_key_state+' mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/driver_key.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+
+    '&nbsp;'+
+
+
+    '<div class="card '+driver_card_indicator+' mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/driver_card.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+    '&nbsp;'+
+
+    '<div class="card '+driver_face_recognation_indicator+' mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/face-id.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+
+
+
+    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+
+    '<div class="card border-danger mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/alcohol-icon.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+    '&nbsp;'+
+
+    '<div class="card border-danger mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/smoke.png") }}" class="img-thumbnail">'+
+    '</div>'+
+
+    '&nbsp;'+
+
+    '<div class="card border-danger mb-1" style="width: 5rem; border-width: 3px ">'+
+    '<img src="{{ url_for("static", filename="img/oil-icon.jpeg") }}" class="img-thumbnail">'+
+    '</div>'+
+
+    '</div>',
+    style   :
+    {
+        margin: '20px',
+        padding: '10px 0 0 0'
+    }
+})
+.addTo(map);
+}
+
+
+
+
+    //Driver Card definitaion
+    var driver_identify = L.control.custom({ position: 'bottomright',
+    content : 
+        '<div class="card border-success mb-3 text-end" style="width: 12rem;">'+
+        '<div class="card-body">'+
+        '<h5 class="card-title">Error 001</h5>'+
+        '<p class="card-text"></p>'+
+        '<h5 class="card-title">Görev Başlama</h5>'+
+        '<p class="card-text">------</p>'+
+        '<p class="card-text">------</p>'+
+        '</div>'+
+        '</div>',
+    style   :
+    {
+        margin: '20px',
+        padding: '10px 0 0 0',
+        cursor: 'pointer'
+    }
+}).addTo(map);
+
+///////Driver Card End
+
+function driver_identify_f() {
+
+  driver_identify.onRemove(map);
+
+  driver_identify = L.control.custom({ position: 'bottomright',
+    content : 
+        '<div class="card border-success mb-3 text-end" style="width: 12rem;">'+
+        '<div class="card-body">'+
+        '<h5 class="card-title">Şöför</h5>'+
+        '<p class="card-text">'+driver_name+'</p>'+
+        '<h5 class="card-title">Görev Başlama</h5>'+
+        '<p class="card-text">'+driver_shift_start_date+'</p>'+
+        '<p class="card-text">'+driver_shift_start_time+'</p>'+
+        '</div>'+
+        '</div>',
+    style   :
+    {
+        margin: '20px',
+        padding: '10px 0 0 0',
+        cursor: 'pointer'
+    }
+}).addTo(map);
+
+}
+
+
+
+
+function callme(){
+    //This promise will resolve when the network call succeeds
+    //Feel free to make a REST fetch using promises and assign it to networkPromise
+    var networkPromise = fetch('/read_sensor')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+
+        //console.log(time_indicator.getContainer());
+
+        
+        hour=String(data['hour']);
+        min=String(data['min']);
+        sec=String(data['sec']);
+        map.removeControl(time_indicator);
+        time_indicator_f();
+        
+        
+        map.setView([data['lat'],data['long']], 19);
+        map.removeLayer(marker);
+        marker = L.marker([data['lat'],data['long']], {icon: myIcon}).addTo(map);
+        
+
+
+        map.removeControl(vehicle_indicators);
+        if (String(data['driver_key_state'])==0){
+          driver_key_state="border-danger";
+
+
+          //DRIVER-CARD
+          driver_name=String('--------------');
+          driver_shift_start_date=String('');
+          driver_shift_start_time=String('');
+          map.removeControl(driver_identify);
+          driver_identify_f();
+        } else {
+          driver_key_state="border-success";
+        }
+
+        if (String(data['driver_card_state'])==0){
+          driver_card_indicator="border-danger";
+        } else if (String(data['driver_card_state'])==1) {
+          driver_card_indicator="border-warning";
+        } else {
+          driver_card_indicator="border-success";
+
+          //DRIVER-CARD
+          driver_name=String(data['driver_name']);
+          map.removeControl(driver_identify);
+          driver_identify_f();
+        }
+
+        if (String(data['driver_face_recognation_state'])==0){
+          driver_face_recognation_indicator="border-danger";
+        } else if (String(data['driver_face_recognation_state'])==1) {
+          driver_face_recognation_indicator="border-warning";
+        } else {
+          driver_face_recognation_indicator="border-success";
+          driver_card_indicator="border-success";
+
+          //DRIVER-CARD
+          driver_name=String(data['driver_name']);
+          driver_shift_start_date=String(data['shift_start_date']);
+          driver_shift_start_time=String(data['shift_start_time']);
+          map.removeControl(driver_identify);
+          driver_identify_f();
+
+        }
+
+        vehicle_indicators_f();
+
+
+        //date="123123"
+        //count=data.count;
+
+
+
+
+
+
+
+
+
+
+
+      });;
+
+
+    //This promise will resolve when 2 seconds have passed
+    var timeOutPromise = new Promise(function(resolve, reject) {
+      // 2 Second delay
+      setTimeout(resolve, 1000, 'Timeout Done');
+    });
+
+    Promise.all(
+    [networkPromise, timeOutPromise]).then(function(values) {
+      console.log("Atleast 2 secs + TTL (Network/server)");
+      //Repeat
+      callme();
+    });
+}
+callme();
+
+
+
+
+</script>
+

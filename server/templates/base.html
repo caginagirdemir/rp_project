@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }} " rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    
+    <link href="{{ url_for('static', filename='css/navbar-top-fixed.css') }} " rel="stylesheet">
+  </head>
+  <body>
+    
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">GEN AKADEMI</a>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <a type="button" href="/livemap" class="btn btn-danger">Live Map</a>
+        &nbsp;
+        <a type="button" href="/sensorpage" class="btn btn-success">Live Sensors</a>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="bg-light p-5 rounded">
+	{% block content %}
+
+	{% endblock %}
+  </div>
+</main>
+
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }} "></script>
+    <script src="{{ url_for('static', filename='chart_js/chart.min.js') }} "></script>
+      
+  </body>
+</html>
